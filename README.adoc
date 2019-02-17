@@ -1,25 +1,26 @@
-Zoltyj Mastodon Client (!EXPERIMENTAL!)
-==========================================
+= Zoltyj Mastodon Client (EXPERIMENTAL) =
+
+What's this?
+----------
+This is an experimental Mastodon client for just reading.
 
 License: Apache 2.0 (See `LICENSE`)
 
-== How to Use ==
+How to Use
+----------
 
 Add `config.yaml` into your installed directory, and write:
 
-------------------
+.Example config.yaml
+----
 baseurl: https://(your base domain)
 accesstoken: (your access token)
-------------------
+----
 
-Then, just type
-
-------------------
-$ ruby main.rb
-------------------
-
+Then, just type `ruby main.rb`. 
 You can watch your home timeline per every 30 seconds.
 
-== TODO ==
+TODO Tasks
+----------
 * Watch notifications
 * Search Functionality
