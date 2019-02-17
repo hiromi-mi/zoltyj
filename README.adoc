@@ -1,0 +1,25 @@
+Zoltyj Mastodon Client (!EXPERIMENTAL!)
+==========================================
+
+License: CC0 (See `LICENSE`)
+
+== How to Use ==
+
+Add `config.yaml` into your installed directory, and write:
+
+------------------
+baseurl: https://(your base domain)
+accesstoken: (your access token)
+------------------
+
+Then, just type
+
+------------------
+$ ruby main.rb
+------------------
+
+You can watch your home timeline per every 30 seconds.
+
+== TODO ==
+* Watch notifications
+* Search Functionality
