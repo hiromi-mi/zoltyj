@@ -1,7 +1,6 @@
 = Zoltyj Mastodon Client (EXPERIMENTAL) =
 
-What's this?
-----------
+== What's this?
 This is an experimental Mastodon client for just reading.
 
 License: Apache 2.0 (See `LICENSE`)
