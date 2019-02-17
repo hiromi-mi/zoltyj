@@ -32,8 +32,12 @@ loop do
     first_id = home.entries[0].id
     for i in home.entries.reverse do
       home_doc = Nokogiri::HTML(i.content)
+      # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
+      # make multiple line into one code
+      home_doc.xpath("//br").each { |x| x.content="; " }
       printf("%s @%s\n", home_doc.text, i.account.acct)
     end
+    # TODO
     home_doc = Nokogiri::HTML(home.entries[0].content)
   end
   sleep(30)
