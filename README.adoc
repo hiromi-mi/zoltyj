@@ -1,7 +1,7 @@
 Zoltyj Mastodon Client (!EXPERIMENTAL!)
 ==========================================
 
-License: CC0 (See `LICENSE`)
+License: Apache 2.0 (See `LICENSE`)
 
 == How to Use ==
 
