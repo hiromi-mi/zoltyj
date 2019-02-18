@@ -3,7 +3,8 @@
 == What's this?
 This is an experimental Mastodon client for just reading.
 
-License: Apache 2.0 (See `LICENSE`)
+License: the Apache License, Version 2.0
+( Copyright hiromi-mi 2019, See `LICENSE`)
 
 How to Use
 ----------
