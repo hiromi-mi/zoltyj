@@ -17,17 +17,26 @@ configfile = "config.yml"
 config = YAML.load_file(configfile)
 
 base_url = URI(config["baseurl"])
-# require 'websocket-client-simple'
-#print("Insert Domain: ")
-#base_url = URI(gets().delete_suffix("\n"))
-#print("Insert Access Token: ")
-# token = STDIN.noecho(&:gets)
 accesstoken = config["accesstoken"]
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 home = client.home_timeline()
+notifications = client.notifications(limit: 5)
 
 first_id = ""
+notifications_first_id = ""
 loop do
+  if notifications.size > 0 then
+    notifications_first_id = notifications.entries[0].id
+    for i in notifications.entries.reverse do
+      if i.status? then
+        notifications_doc = Nokogiri::HTML(i.status.content)
+        notifications_doc.xpath("//br").each { |x| x.content="; " }
+        printf("[%s] %s @%s\n", i.type, notifications_doc.text, i.account.acct)
+      else
+        printf("[%s] @%s\n", i.type, i.account.acct)
+      end
+    end
+  end
   if home.size > 0 then
     first_id = home.entries[0].id
     for i in home.entries.reverse do
@@ -42,4 +51,5 @@ loop do
   end
   sleep(30)
   home = client.home_timeline(since_id: first_id.to_i)
+  notifications = client.notifications(since_id: notifications_first_id.to_i, limit: 5)
 end
