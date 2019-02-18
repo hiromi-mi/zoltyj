@@ -28,11 +28,19 @@ require 'nokogiri'
 require 'io/console'
 require 'sqlite3'
 require 'yaml'
+require 'optparse'
 
+opt = OptionParser.new
+params = {}
+params["saved"] = false
+
+opt.on("-r", "--resume", "Use resumed data") {|v| params["saved"] = true}
+
+opt.parse!(ARGV, into: params)
 configfile = "config.yml"
 latestfile = "latest.yml"
 config = YAML.load_file(configfile)
-if FileTest.exist?(latestfile)
+if FileTest.exist?(latestfile) && params["saved"]
   latest = YAML.load_file(latestfile, fallback: {})
 else
   # couldn't load, then create
