@@ -23,4 +23,3 @@ posturi = URI(sprintf("%s/oauth/token", base_url))
 postres = Net::HTTP.post_form(posturi, [["client_id", new_app_token.client_id], ["client_secret", new_app_token.client_secret], ["grant_type", "authorization_code"], ["code", authcode],["redirect_uri", "urn:ietf:wg:oauth:2.0:oob"]])
 config["access_token"] = JSON.parse(postres.body)["access_token"]
 File.write(configfile, config.to_yaml)
-printf("%s\n", access_token)
