@@ -16,19 +16,29 @@ require 'sqlite3'
 require 'yaml'
 
 configfile = "config.yml"
+latestfile = "latest.yml"
 config = YAML.load_file(configfile)
+if FileTest.exist?(latestfile)
+  latest = YAML.load_file(latestfile, fallback: {})
+else
+  # couldn't load, then create
+  latest = {}
+  latest["first_id"] = ""
+  latest["notifications_first_id"] = ""
+end
 
 base_url = URI(config["baseurl"])
 accesstoken = config["accesstoken"]
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 
-first_id = ""
-notifications_first_id = ""
+# Capture CTRL+C
+Signal.trap("EXIT", proc { File.write(latestfile, latest.to_yaml) })
+
 loop do
-  home = client.home_timeline(since_id: first_id.to_i)
-  notifications = client.notifications(since_id: notifications_first_id.to_i, limit: 5)
+  home = client.home_timeline(since_id: latest["first_id"].to_i)
+  notifications = client.notifications(since_id: latest["notifications_first_id"].to_i, limit: 5)
   if notifications.size > 0 then
-    notifications_first_id = notifications.entries[0].id
+    latest["notifications_first_id"] = notifications.entries[0].id
     for i in notifications.entries.reverse do
       if i.status? then
         notifications_doc = Nokogiri::HTML(i.status.content)
@@ -40,7 +50,7 @@ loop do
     end
   end
   if home.size > 0 then
-    first_id = home.entries[0].id
+    latest["first_id"] = home.entries[0].id
     for i in home.entries.reverse do
       home_doc = Nokogiri::HTML(i.content)
       # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
