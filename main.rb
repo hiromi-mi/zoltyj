@@ -31,7 +31,7 @@ loop do
       if i.status? then
         notifications_doc = Nokogiri::HTML(i.status.content)
         notifications_doc.xpath("//br").each { |x| x.content="; " }
-        printf("[%s] %s @%s\n", i.type, notifications_doc.text, i.account.acct)
+        printf("[%s] @%s %s\n", i.type, i.account.acct, notifications_doc.text)
       else
         printf("[%s] @%s\n", i.type, i.account.acct)
       end
