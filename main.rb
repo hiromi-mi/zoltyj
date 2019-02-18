@@ -1,3 +1,5 @@
+# zoltyj
+# License: Apache-2.0 (See LICENSE)
 # main.rb
 # https://nokogiri.org/tutorials/parsing_an_html_xml_document.html
 # https://www.rubydoc.info/gems/mastodon-api/Mastodon/Status
@@ -19,12 +21,12 @@ config = YAML.load_file(configfile)
 base_url = URI(config["baseurl"])
 accesstoken = config["accesstoken"]
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
-home = client.home_timeline()
-notifications = client.notifications(limit: 5)
 
 first_id = ""
 notifications_first_id = ""
 loop do
+  home = client.home_timeline(since_id: first_id.to_i)
+  notifications = client.notifications(since_id: notifications_first_id.to_i, limit: 5)
   if notifications.size > 0 then
     notifications_first_id = notifications.entries[0].id
     for i in notifications.entries.reverse do
@@ -46,10 +48,6 @@ loop do
       home_doc.xpath("//br").each { |x| x.content="; " }
       printf("%s @%s\n", home_doc.text, i.account.acct)
     end
-    # TODO
-    home_doc = Nokogiri::HTML(home.entries[0].content)
   end
   sleep(30)
-  home = client.home_timeline(since_id: first_id.to_i)
-  notifications = client.notifications(since_id: notifications_first_id.to_i, limit: 5)
 end
