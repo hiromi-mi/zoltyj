@@ -1,7 +1,7 @@
 = Zoltyj Mastodon Client (EXPERIMENTAL) =
 
 == What's this?
-This is an experimental Mastodon client for just reading.
+This is an experimental Mastodon client for just reading ("nagashiyomi") and tooting.
 
 License: the Apache License, Version 2.0
 ( Copyright hiromi-mi 2019, See `LICENSE`)
@@ -28,4 +28,3 @@ TODO Tasks
 ----------
 * Search Functionality
 * Encryption
-* Toot Functionality

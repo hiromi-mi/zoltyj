@@ -78,7 +78,7 @@ loop do
       # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
       # make multiple line into one code
       home_doc.xpath("//br").each { |x| x.content="; " }
-      printf("%s @%s\n", home_doc.text, i.account.acct)
+      printf("%s %s @%s\n", i.id, home_doc.text, i.account.acct)
     end
   end
   sleep(30)
