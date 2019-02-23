@@ -21,18 +21,26 @@
 # https://docs.joinmastodon.org/api/entities/#status
 # https://docs.joinmastodon.org/api/rest/timelines/
 
-require 'rubygems'
 require 'mastodon'
 require 'uri'
 require 'nokogiri'
 require 'yaml'
 require 'optparse'
 require 'readline'
+require 'gpgme'
 
 configfile = "config.yml"
+hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)
 base_url = URI(config["baseurl"])
-client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: config["accesstoken"])
+
+crypto = GPGME::Crypto.new
+file = File.open(hiddenfile, "r")
+accesstoken_data = crypto.decrypt(file)
+accesstoken = accesstoken_data.read(100) # at most 100 bytes
+file.close
+
+client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 toot = Readline.readline("Toot: ", false)
 id = Readline.readline("Reply to: ", false)
 client.create_status(toot, {visibility: "private",in_reply_to_id: id} )

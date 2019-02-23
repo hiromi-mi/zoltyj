@@ -15,13 +15,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-require 'rubygems'
 require 'mastodon'
 require 'uri'
 require 'net/http'
 require 'yaml'
+require 'gpgme'
 
 configfile = "config.yml"
+hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)
 
 base_url = URI(config["baseurl"])
@@ -40,6 +41,10 @@ printf("Input the code shown on that website: ")
 authcode = gets().delete_suffix("\n")
 posturi = URI(sprintf("%s/oauth/token", base_url))
 postres = Net::HTTP.post_form(posturi, [["client_id", new_app_token.client_id], ["client_secret", new_app_token.client_secret], ["grant_type", "authorization_code"], ["code", authcode],["redirect_uri", "urn:ietf:wg:oauth:2.0:oob"]])
-config["accesstoken"] = JSON.parse(postres.body)["access_token"]
-File.write(configfile, config.to_yaml)
+accesstoken = JSON.parse(postres.body)["access_token"]
+# File.write(configfile, config.to_yaml)
+crypto = GPGME::Crypto.new
+file = File.open(hiddenfile)
+crypto.encrypt accesstoken, :output => file
+file.close
 print "Saved.\n"

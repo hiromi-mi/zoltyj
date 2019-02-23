@@ -11,6 +11,7 @@ License: the Apache License, Version 2.0
 These dependency are not installed automatically.
 * mastodon-api
 * nokogiri
+* GnuPG and ruby-gnupg
 
 How to Use
 ----------
@@ -20,15 +21,13 @@ Add `config.yaml` *with permission 700* into your installed directory, and write
 .Example config.yaml
 ----
 baseurl: https://(your base domain)
-accesstoken: (your access token)
 ----
+
+Append `baseurl` into `config.yaml` and run `run auth.rb`.
 
 Then, just type `ruby main.rb`. 
 You can watch your home timeline per every 30 seconds.
 
-.Experimental auth.rb
-Although did not test well, `auth.rb` can be used to create access token.
-Append `baseurl` into `config.yaml` and run `run auth.rb`.
 
 TODO Tasks
 ----------

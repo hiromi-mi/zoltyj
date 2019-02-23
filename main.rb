@@ -21,7 +21,6 @@
 # https://docs.joinmastodon.org/api/entities/#status
 # https://docs.joinmastodon.org/api/rest/timelines/
 
-require 'rubygems'
 require 'mastodon'
 require 'uri'
 require 'nokogiri'
@@ -29,6 +28,7 @@ require 'io/console'
 require 'sqlite3'
 require 'yaml'
 require 'optparse'
+require 'gpgme'
 
 opt = OptionParser.new
 params = {}
@@ -39,6 +39,7 @@ opt.on("-r", "--resume", "Use resumed data") {|v| params["saved"] = true}
 opt.parse!(ARGV, into: params)
 configfile = "config.yml"
 latestfile = "latest.yml"
+hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)
 if FileTest.exist?(latestfile) && params["saved"]
   latest = YAML.load_file(latestfile, fallback: {})
@@ -50,7 +51,11 @@ else
 end
 
 base_url = URI(config["baseurl"])
-accesstoken = config["accesstoken"]
+crypto = GPGME::Crypto.new
+file = File.open(hiddenfile, "r")
+accesstoken_data = crypto.decrypt(file)
+accesstoken = accesstoken_data.read(100) # at most 100 bytes
+file.close
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 
 # Capture CTRL+C
