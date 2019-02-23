@@ -6,10 +6,16 @@ This is an experimental Mastodon client for just reading ("nagashiyomi") and too
 License: the Apache License, Version 2.0
 ( Copyright hiromi-mi 2019, See `LICENSE`)
 
+== Dependency
+
+These dependency are not installed automatically.
+* mastodon-api
+* nokogiri
+
 How to Use
 ----------
 
-Add `config.yaml` into your installed directory, and write:
+Add `config.yaml` *with permission 700* into your installed directory, and write:
 
 .Example config.yaml
 ----
