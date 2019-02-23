@@ -20,6 +20,7 @@ require 'uri'
 require 'net/http'
 require 'yaml'
 require 'gpgme'
+require 'fileutils'
 
 configfile = "config.yml"
 hiddenfile = "pk.txt"
@@ -44,7 +45,8 @@ postres = Net::HTTP.post_form(posturi, [["client_id", new_app_token.client_id], 
 accesstoken = JSON.parse(postres.body)["access_token"]
 # File.write(configfile, config.to_yaml)
 crypto = GPGME::Crypto.new
-file = File.open(hiddenfile)
+file = File.open(hiddenfile, "w+")
+FileUtils.chmod 0700 hiddenfile # keep it 700
 crypto.encrypt accesstoken, :output => file
 file.close
 print "Saved.\n"
