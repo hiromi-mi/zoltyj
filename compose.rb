@@ -15,7 +15,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# https://nokogiri.org/tutorials/parsing_an_html_xml_document.html
 # https://www.rubydoc.info/gems/mastodon-api/Mastodon/Status
 # https://www.rubydoc.info/gems/mastodon-api/Mastodon/REST/Timelines#home_timeline-instance_method
 # https://docs.joinmastodon.org/api/entities/#status
@@ -23,9 +22,8 @@
 
 require 'mastodon'
 require 'uri'
-require 'nokogiri'
 require 'yaml'
-require 'optparse'
+# require 'optparse'
 require 'readline'
 require 'gpgme'
 

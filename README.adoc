@@ -32,4 +32,3 @@ You can watch your home timeline per every 30 seconds.
 TODO Tasks
 ----------
 * Search Functionality
-* Encryption

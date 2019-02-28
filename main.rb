@@ -25,7 +25,7 @@ require 'mastodon'
 require 'uri'
 require 'nokogiri'
 require 'io/console'
-require 'sqlite3'
+#require 'sqlite3'
 require 'yaml'
 require 'optparse'
 require 'gpgme'
@@ -70,9 +70,9 @@ loop do
       if i.status? then
         notifications_doc = Nokogiri::HTML(i.status.content)
         notifications_doc.xpath("//br").each { |x| x.content="; " }
-        printf("[%s] @%s %s\n", i.type, i.account.acct, notifications_doc.text)
+        printf("[%s @%s] %s\n", i.type, i.account.acct, notifications_doc.text)
       else
-        printf("[%s] @%s\n", i.type, i.account.acct)
+        printf("[%s @%s]\n", i.type, i.account.acct)
       end
     end
   end
