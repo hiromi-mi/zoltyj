@@ -1,4 +1,4 @@
-= Zoltyj Mastodon Client (EXPERIMENTAL) =
+= Zoltyj Mastodon Client =
 
 == What's this?
 This is an experimental Mastodon client for just reading ("nagashiyomi") and tooting.
