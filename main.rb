@@ -68,7 +68,14 @@ loop do
     latest["notifications_first_id"] = notifications.entries[0].id
     for i in notifications.entries.reverse do
       if i.status? then
-        notifications_doc = Nokogiri::HTML(i.status.content)
+        begin
+          notifications_doc = Nokogiri::HTML(i.status.content)
+        rescue NoMethodError
+          # For Deleted Toots
+          printf("[%s @%s] [REMOVED]\n", i.type, i.account.acct)
+          next
+        end
+
         notifications_doc.xpath("//br").each { |x| x.content="; " }
         printf("[%s @%s%s] %s\n", i.type, i.account.acct,
                (i.status.visibility == "direct") ? " DM" : "",
