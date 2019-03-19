@@ -62,8 +62,8 @@ client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoke
 Signal.trap("EXIT", proc { File.write(latestfile, latest.to_yaml) })
 
 loop do
-  home = client.home_timeline(min_id: latest["first_id"].to_i)
-  notifications = client.notifications(min_id: latest["notifications_first_id"].to_i, limit: 5)
+  home = client.home_timeline(since_id: latest["first_id"].to_i)
+  notifications = client.notifications(since_id: latest["notifications_first_id"].to_i, limit: 5)
   if notifications.size > 0 then
     latest["notifications_first_id"] = notifications.entries[0].id
     for i in notifications.entries.reverse do
