@@ -40,5 +40,9 @@ file.close
 
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 toot = Readline.readline("Toot: ", false)
-id = Readline.readline("Reply to: ", false)
+if ARGV[0] == nil
+  id = Readline.readline("Reply to: ", false)
+else
+  id = ARGV[0]
+end
 client.create_status(toot, {visibility: "private",in_reply_to_id: id} )
