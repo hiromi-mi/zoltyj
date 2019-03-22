@@ -23,7 +23,6 @@
 require 'mastodon'
 require 'uri'
 require 'yaml'
-# require 'optparse'
 require 'readline'
 require 'gpgme'
 
@@ -40,9 +39,5 @@ file.close
 
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
 toot = Readline.readline("Toot: ", false)
-if ARGV[0] == nil
-  id = Readline.readline("Reply to: ", false)
-else
-  id = ARGV[0]
-end
+id = ARGV[0]
 client.create_status(toot, {visibility: "private",in_reply_to_id: id} )

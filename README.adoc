@@ -31,5 +31,5 @@ Just type `ruby main.rb`.
 You can watch your home timeline per every 30 seconds.
 
 .Compose Toot
-Type `ruby main.rb` and compose toot into input procedure. After typing, press enter and insert reply ID (if any).
+Type `ruby main.rb (Reply ID if any)` and compose toot into input procedure. After typing, press enter.
 That's all.
