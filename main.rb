@@ -62,8 +62,15 @@ client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoke
 Signal.trap("EXIT", proc { File.write(latestfile, latest.to_yaml) })
 
 loop do
-  home = client.home_timeline(since_id: latest["first_id"].to_i)
-  notifications = client.notifications(since_id: latest["notifications_first_id"].to_i, limit: 5)
+  begin
+    home = client.home_timeline(since_id: latest["first_id"].to_i)
+    notifications = client.notifications(since_id: latest["notifications_first_id"].to_i, limit: 5)
+  rescue HTTP::TimeoutError
+    puts "Waiting for a while becuase of HTTP TimeoutError"
+    sleep(10)
+    next
+  end
+
   if notifications.size > 0 then
     latest["notifications_first_id"] = notifications.entries[0].id
     for i in notifications.entries.reverse do
