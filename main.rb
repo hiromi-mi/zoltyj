@@ -33,8 +33,12 @@ require 'gpgme'
 opt = OptionParser.new
 params = {}
 params["saved"] = false
+params["id"] = true
+params["pooling"] = 30
 
 opt.on("-r", "--resume", "Use resumed data") {|v| params["saved"] = true}
+opt.on("-s", "--noid", "Do not show ID") {|v| params["id"] = false}
+opt.on("-t", "--seconds SECONDS", Integer, "Pooling seconds (Default: 30)") {|v| params["pooling"] = v}
 
 opt.parse!(ARGV, into: params)
 configfile = "config.yml"
@@ -99,8 +103,12 @@ loop do
       # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
       # make multiple line into one code
       home_doc.xpath("//br").each { |x| x.content="; " }
-      printf("%s %s @%s\n", i.id, home_doc.text, i.account.acct)
+      if params["id"] then
+        printf("%s %s @%s\n", i.id, home_doc.text, i.account.acct)
+      else
+        printf("%s @%s\n", home_doc.text, i.account.acct)
+      end
     end
   end
-  sleep(30)
+  sleep(params["pooling"])
 end
