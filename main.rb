@@ -41,7 +41,7 @@ opt.on("-s", "--noid", "Do not show ID") {|v| params["id"] = false}
 opt.on("-t", "--seconds SECONDS", Integer, "Pooling seconds (Default: 30)") {|v| params["pooling"] = v}
 
 opt.parse!(ARGV, into: params)
-configfile = "config.yml"
+configfile = "config.yaml"
 latestfile = "latest.yml"
 hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)

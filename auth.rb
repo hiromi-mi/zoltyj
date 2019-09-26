@@ -22,7 +22,7 @@ require 'yaml'
 require 'gpgme'
 require 'fileutils'
 
-configfile = "config.yml"
+configfile = "config.yaml"
 hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)
 
@@ -46,7 +46,7 @@ accesstoken = JSON.parse(postres.body)["access_token"]
 # File.write(configfile, config.to_yaml)
 crypto = GPGME::Crypto.new
 file = File.open(hiddenfile, "w+")
-FileUtils.chmod 0700 hiddenfile # keep it 700
+FileUtils.chmod 0700, hiddenfile # keep it 700
 crypto.encrypt accesstoken, :output => file
 file.close
 print "Saved.\n"

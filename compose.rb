@@ -26,7 +26,7 @@ require 'yaml'
 require 'readline'
 require 'gpgme'
 
-configfile = "config.yml"
+configfile = "config.yaml"
 hiddenfile = "pk.txt"
 config = YAML.load_file(configfile)
 base_url = URI(config["baseurl"])
