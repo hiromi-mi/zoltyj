@@ -1,22 +1,21 @@
 = Zoltyj Mastodon Client =
 
-== What's this?
+== What's this? ==
 This is an experimental Mastodon client for just reading ("nagashiyomi") and tooting.
 
 License: the Apache License, Version 2.0
 ( Copyright hiromi-mi 2019, See `LICENSE`)
 
-== Dependency
+== Dependency ==
 
 These dependency are not installed automatically.
 * mastodon-api
 * nokogiri
 * GnuPG and ruby-gnupg (to save access token with encryption)
 
-How to Use
-----------
+=== How to Use ===
 
-.Initial Setup
+=== Initial Setup ===
 Add `config.yaml` *with permission 700* into your installed directory, and write as follows:
 
 .Example config.yaml
@@ -26,11 +25,11 @@ baseurl: https://(your base domain)
 
 Append `baseurl` into `config.yaml`, run `ruby auth.rb` and follow its procedure.
 
-.Watch Your Home Timeline
+=== Watch Your Home Timeline ===
 Just type `ruby main.rb`. 
 You can watch your home timeline per every 30 seconds.
 
-.Compose Toot
+=== Compose Toot ===
 Type `ruby main.rb (Reply ID if any)` and compose toot into input procedure. After typing, press enter.
 
 Newline can be written as CTRL-M.
