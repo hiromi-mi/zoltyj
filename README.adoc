@@ -13,6 +13,8 @@ These dependency are not installed automatically.
 * nokogiri
 * GnuPG and ruby-gnupg (to save access token with encryption)
 
+You can install by using `bundle update --vendor bundle/vendor` or `gem install`.
+
 === How to Use ===
 
 === Initial Setup ===
