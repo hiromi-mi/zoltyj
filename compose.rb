@@ -30,7 +30,10 @@ require 'optparse'
 visibility = "private"
 opt = OptionParser.new
 opt.on("-d", "--dm", "Send direct message") {|v| visibility = "direct"}
+
+# using parse! will remove (options of) ARGV
 opt.parse!(ARGV)
+id = ARGV[0]
 
 configfile = "config.yaml"
 hiddenfile = "pk.txt"
@@ -44,6 +47,5 @@ accesstoken = accesstoken_data.read(100) # at most 100 bytes
 file.close
 
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
-toot = Readline.readline(visibility + " Toot: ", false)
-id = ARGV[0]
+toot = Readline.readline(id + " " + visibility + " Toot: ", false)
 client.create_status(toot, {visibility:visibility,in_reply_to_id: id} )
