@@ -33,7 +33,7 @@ opt.on("-d", "--dm", "Send direct message") {|v| visibility = "direct"}
 
 # using parse! will remove (options of) ARGV
 opt.parse!(ARGV)
-id = ARGV[0]
+id = ARGV[0].to_s
 
 configfile = "config.yaml"
 hiddenfile = "pk.txt"
