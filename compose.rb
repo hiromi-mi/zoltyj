@@ -25,6 +25,12 @@ require 'uri'
 require 'yaml'
 require 'readline'
 require 'gpgme'
+require 'optparse'
+
+visibility = "private"
+opt = OptionParser.new
+opt.on("-d", "--dm", "Send direct message") {|v| visibility = "direct"}
+opt.parse!(ARGV)
 
 configfile = "config.yaml"
 hiddenfile = "pk.txt"
@@ -38,6 +44,6 @@ accesstoken = accesstoken_data.read(100) # at most 100 bytes
 file.close
 
 client = Mastodon::REST::Client.new(base_url: base_url, bearer_token: accesstoken)
-toot = Readline.readline("Toot: ", false)
+toot = Readline.readline(visibility + " Toot: ", false)
 id = ARGV[0]
-client.create_status(toot, {visibility: "private",in_reply_to_id: id} )
+client.create_status(toot, {visibility:visibility,in_reply_to_id: id} )
