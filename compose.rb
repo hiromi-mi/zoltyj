@@ -30,6 +30,7 @@ require 'optparse'
 visibility = "private"
 opt = OptionParser.new
 opt.on("-d", "--dm", "Send direct message") {|v| visibility = "direct"}
+opt.on("--public", "Send public message") {|v| visibility = "unlisted"}
 
 # using parse! will remove (options of) ARGV
 opt.parse!(ARGV)
