@@ -103,10 +103,15 @@ loop do
       # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
       # make multiple line into one code
       home_doc.xpath("//br").each { |x| x.content="; " }
+      home_toot = home_doc.text + " @" + i.account.acct
+      if params["reblog"] != nil then
+        home_toot = "BT> " + home_toot
+      end
+
       if params["id"] then
-        printf("%s %s @%s\n", i.id, home_doc.text, i.account.acct)
+        printf("%s %s\n", i.id, home_toot)
       else
-        printf("%s @%s\n", home_doc.text, i.account.acct)
+        printf("%s\n", home_toot)
       end
     end
   end
