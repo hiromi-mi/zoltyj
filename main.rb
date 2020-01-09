@@ -21,6 +21,7 @@
 # https://docs.joinmastodon.org/api/entities/#status
 # https://docs.joinmastodon.org/api/rest/timelines/
 
+gem 'mastodon-api', require: 'mastodon'
 require 'mastodon'
 require 'uri'
 require 'nokogiri'
