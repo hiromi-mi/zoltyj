@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
-gem "mastodon-api"
 gem "nokogiri"
+gem 'mastodon-api', require: 'mastodon'
 # gem "gpgme"

@@ -35,7 +35,7 @@ opt = OptionParser.new
 params = {}
 params["saved"] = false
 params["id"] = true
-params["pooling"] = 30
+params["pooling"] = 5
 
 opt.on("-r", "--resume", "Use resumed data") {|v| params["saved"] = true}
 opt.on("-s", "--noid", "Do not show ID") {|v| params["id"] = false}
@@ -51,8 +51,8 @@ if FileTest.exist?(latestfile) && params["saved"]
 else
   # couldn't load, then create
   latest = {}
-  latest["first_id"] = ""
-  latest["notifications_first_id"] = ""
+  latest["first_id"] = "0"
+  latest["notifications_first_id"] = "0"
 end
 
 base_url = URI(config["baseurl"])
@@ -68,19 +68,27 @@ Signal.trap("EXIT", proc { File.write(latestfile, latest.to_yaml) })
 
 loop do
   begin
-    home = client.home_timeline(since_id: latest["first_id"].to_i)
-    notifications = client.notifications(since_id: latest["notifications_first_id"].to_i, limit: 5)
+    #home = client.home_timeline(since_id: latest["first_id"])
+    home = client.home_timeline()
+    #notifications = client.notifications(since_id: latest["notifications_first_id"], limit: 5)
+    notifications = client.notifications(limit: 5)
   rescue HTTP::TimeoutError
     puts "Waiting for a while becuase of HTTP TimeoutError"
     sleep(10)
     next
+  rescue FrozenError
+    puts "FrozenError"
+    sleep(5)
+    next
   end
 
   if notifications.size > 0 then
-    latest["notifications_first_id"] = notifications.entries[0].id
     for i in notifications.entries.reverse do
+      if latest["notifications_first_id"].to_i >= i.id.to_i then
+        next
+      end
       if i.status? then
-        begin
+       begin
           notifications_doc = Nokogiri::HTML(i.status.content)
         rescue NoMethodError
           # For Deleted Toots
@@ -96,10 +104,13 @@ loop do
         printf("[%s @%s]\n", i.type, i.account.acct)
       end
     end
+    latest["notifications_first_id"] = notifications.entries[0].id
   end
   if home.size > 0 then
-    latest["first_id"] = home.entries[0].id
     for i in home.entries.reverse do
+      if latest["first_id"].to_i >= i.id.to_i then
+        next
+      end
       home_doc = Nokogiri::HTML(i.content)
       # https://nokogiri.org/tutorials/searching_a_xml_html_document.html
       # make multiple line into one code
@@ -115,6 +126,7 @@ loop do
         printf("%s\n", home_toot)
       end
     end
+    latest["first_id"] = home.entries[0].id
   end
   sleep(params["pooling"])
 end
