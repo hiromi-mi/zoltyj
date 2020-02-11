@@ -11,7 +11,7 @@ License: the Apache License, Version 2.0
 These dependency are not installed automatically.
 * mastodon-api : MIT License
 * nokogiri : MIT License
-* ruby-gpgme (to save access token with encryption) : LGPL-2.1
+* ruby-gpgme (to save access token with encryption) : LGPL-2.1 or later
   Its dependencies are shown below: https://nokogiri.org/LICENSE-DEPENDENCIES.html
 * GnuPG 
 
