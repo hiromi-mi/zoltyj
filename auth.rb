@@ -1,4 +1,5 @@
 # Authentitate script (not tested well) for zoltyj
+# SPDX-License-Identifier: Apache-2.0
 # License: Apache-2.0 (See LICENSE)
 #
 #   Copyright hiromi-mi 2019
